@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using TutoMVVM.WpfApplication.ViewModels;
 
 namespace TutoMVVM.WpfApplication
 {
@@ -16,6 +11,7 @@ namespace TutoMVVM.WpfApplication
         protected override void OnStartup(StartupEventArgs e)
         {
             MainWindow window = new MainWindow();
+            window.DataContext = new MainVIewModel();
             window.Show();
 
             base.OnStartup(e);

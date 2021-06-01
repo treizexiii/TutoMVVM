@@ -10,6 +10,12 @@ A trading WPF application with purpose of alearning the Model View ViewModel dev
 
 ## 2. Version
 
+Version 0.2:
+
+- Add NavigationBar and Navigator Command
+- Add Home view and viewmodel
+- Add Portfolio view and viewmodel
+
 Version 0.1:
 
 - Add Entity models

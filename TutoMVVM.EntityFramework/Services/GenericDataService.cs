@@ -40,7 +40,6 @@ namespace TutoMVVM.EntityFramework.Services
                 {
                     context.Set<T>().Remove(deletedEntity);
                     await context.SaveChangesAsync();
-
                     return true;
                 }
                 catch (Exception ex)

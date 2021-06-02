@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TutoMVVM.WpfApplication.ViewModels;
 
 namespace TutoMVVM.WpfApplication.State.Navigators
 {
-    public enum ViewtType
+    public enum ViewType
     {
         Home,
-        Potfolio
+        Potfolio,
+        Buy,
+        Sell
     }
 
     public interface INavigator

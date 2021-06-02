@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TutoMVVM.WpfApplication.State.Navigators;
-using TutoMVVM.WpfApplication.ViewModels;
+using TutoMVVM.WpfApplication.ViewModels.Factories;
 
 namespace TutoMVVM.WpfApplication.Commands
 {
@@ -13,11 +9,13 @@ namespace TutoMVVM.WpfApplication.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        private INavigator _navigator;
+        private readonly INavigator _navigator;
+        private readonly IRootViewModelFactory _viewModelFactory;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator)
+        public UpdateCurrentViewModelCommand(INavigator navigator, IRootViewModelFactory viewModelFactory)
         {
             _navigator = navigator;
+            _viewModelFactory = viewModelFactory;
         }
 
         public bool CanExecute(object parameter)
@@ -27,21 +25,9 @@ namespace TutoMVVM.WpfApplication.Commands
 
         public void Execute(object parameter)
         {
-            if (parameter is ViewtType)
+            if (parameter is ViewType)
             {
-                ViewtType viewtType = (ViewtType)parameter;
-
-                switch (viewtType)
-                {
-                    case ViewtType.Home:
-                        _navigator.CurrentViewModel = new HomeViewModel();
-                        break;
-                    case ViewtType.Potfolio:
-                        _navigator.CurrentViewModel = new PortfolioViewModel();
-                        break;
-                    default:
-                        break;
-                }
+                _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel((ViewType)parameter);
             }
         }
     }

@@ -26,13 +26,15 @@ namespace TutoMVVM.EntityFramework.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AccountHolder")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AccountHolderId")
+                        .HasColumnType("int");
 
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountHolderId");
 
                     b.ToTable("Accounts");
                 });
@@ -87,13 +89,22 @@ namespace TutoMVVM.EntityFramework.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TutoMVVM.Domain.Models.Account", b =>
+                {
+                    b.HasOne("TutoMVVM.Domain.Models.User", "AccountHolder")
+                        .WithMany()
+                        .HasForeignKey("AccountHolderId");
+
+                    b.Navigation("AccountHolder");
+                });
+
             modelBuilder.Entity("TutoMVVM.Domain.Models.AssetTransaction", b =>
                 {
                     b.HasOne("TutoMVVM.Domain.Models.Account", "Account")
                         .WithMany("AssetTransactions")
                         .HasForeignKey("AccountId");
 
-                    b.OwnsOne("TutoMVVM.Domain.Models.Stock", "Stock", b1 =>
+                    b.OwnsOne("TutoMVVM.Domain.Models.Asset", "Asset", b1 =>
                         {
                             b1.Property<int>("AssetTransactionId")
                                 .ValueGeneratedOnAdd()
@@ -116,7 +127,7 @@ namespace TutoMVVM.EntityFramework.Migrations
 
                     b.Navigation("Account");
 
-                    b.Navigation("Stock");
+                    b.Navigation("Asset");
                 });
 
             modelBuilder.Entity("TutoMVVM.Domain.Models.Account", b =>

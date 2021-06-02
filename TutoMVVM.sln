@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutoMVVM.Domain", "TutoMVVM.Domain\TutoMVVM.Domain.csproj", "{61D9DF76-8F5F-47B7-BF5C-63C0780AB41D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutoMVVM.Domain", "TutoMVVM.Domain\TutoMVVM.Domain.csproj", "{61D9DF76-8F5F-47B7-BF5C-63C0780AB41D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutoMVVM.EntityFramework", "TutoMVVM.EntityFramework\TutoMVVM.EntityFramework.csproj", "{5080EF30-86DE-48BC-839E-D01F1EE37A4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutoMVVM.EntityFramework", "TutoMVVM.EntityFramework\TutoMVVM.EntityFramework.csproj", "{5080EF30-86DE-48BC-839E-D01F1EE37A4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutoMVVM.ConsoleTestApp", "TutoMVVM.ConsoleTestApp\TutoMVVM.ConsoleTestApp.csproj", "{163D8A74-545D-4BC2-A9C9-8341CA123F1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutoMVVM.WpfApplication", "TutoMVVM.WpfApplication\TutoMVVM.WpfApplication.csproj", "{F414DA14-5148-4D37-9C5D-3D07B48E2054}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutoMVVM.WpfApplication", "TutoMVVM.WpfApplication\TutoMVVM.WpfApplication.csproj", "{F414DA14-5148-4D37-9C5D-3D07B48E2054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutoMVVM.FinancialModelingPrepAPI", "TutoMVVM.FinancialModelingPrepAPI\TutoMVVM.FinancialModelingPrepAPI.csproj", "{4022F7D4-F58E-4887-928F-6B92E5703062}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{5080EF30-86DE-48BC-839E-D01F1EE37A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5080EF30-86DE-48BC-839E-D01F1EE37A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5080EF30-86DE-48BC-839E-D01F1EE37A4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{163D8A74-545D-4BC2-A9C9-8341CA123F1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{163D8A74-545D-4BC2-A9C9-8341CA123F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{163D8A74-545D-4BC2-A9C9-8341CA123F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{163D8A74-545D-4BC2-A9C9-8341CA123F1C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F414DA14-5148-4D37-9C5D-3D07B48E2054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F414DA14-5148-4D37-9C5D-3D07B48E2054}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F414DA14-5148-4D37-9C5D-3D07B48E2054}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F414DA14-5148-4D37-9C5D-3D07B48E2054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4022F7D4-F58E-4887-928F-6B92E5703062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4022F7D4-F58E-4887-928F-6B92E5703062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4022F7D4-F58E-4887-928F-6B92E5703062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4022F7D4-F58E-4887-928F-6B92E5703062}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TutoMVVM.WpfApplication.Commands;
 using TutoMVVM.WpfApplication.Models;
 using TutoMVVM.WpfApplication.ViewModels;
+using TutoMVVM.WpfApplication.ViewModels.Factories;
 
 namespace TutoMVVM.WpfApplication.State.Navigators
 {
@@ -15,7 +10,15 @@ namespace TutoMVVM.WpfApplication.State.Navigators
     {
         private ViewModelBase _currentViewModel;
 
-        public ViewModelBase CurrentViewModel {
+        public ICommand updateCurrentViewModelCommand { get; set; }
+
+        public Navigator(IRootViewModelFactory viewModelAbstractFactory)
+        {
+            updateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelAbstractFactory);
+        }
+
+        public ViewModelBase CurrentViewModel
+        {
             get
             {
                 return _currentViewModel;
@@ -26,8 +29,5 @@ namespace TutoMVVM.WpfApplication.State.Navigators
                 OnPropertyChange(nameof(CurrentViewModel));
             }
         }
-
-        public ICommand updateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this);
-
     }
 }

@@ -4,18 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TutoMVVM.WpfApplication"
-        
+
         xmlns:controls="clr-namespace:TutoMVVM.WpfApplication.Controls"
-        
+
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Trading tool" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <controls:NavigationBar Grid.Row="0" DataContext="{Binding Navigator}"/>
+
+        <Grid Grid.Row="0">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Authenticator.IsLoggedIn}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <controls:NavigationBar/>
+        </Grid>
+
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <ContentControl Content="{Binding Navigator.CurrentViewModel}"/>
         </ScrollViewer>

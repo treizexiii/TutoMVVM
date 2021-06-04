@@ -15,25 +15,25 @@ namespace TutoMVVM.WpfApplication.ViewModels
         public string Symbol
         {
             get { return _symbol; }
-            set { _symbol = value; OnPropertyChange(nameof(Symbol)); }
+            set { _symbol = value; OnPropertyChanged(nameof(Symbol)); }
         }
 
         public string SearchResultSymbol
         {
             get { return _searchResultSymbol; }
-            set { _searchResultSymbol = value; OnPropertyChange(nameof(SearchResultSymbol)); OnPropertyChange(nameof(TotalPrice)); }
+            set { _searchResultSymbol = value; OnPropertyChanged(nameof(SearchResultSymbol)); OnPropertyChanged(nameof(TotalPrice)); }
         }
 
         public double StockPrice
         {
             get { return _stockPrice; }
-            set { _stockPrice = value; OnPropertyChange(nameof(StockPrice)); OnPropertyChange(nameof(TotalPrice)); }
+            set { _stockPrice = value; OnPropertyChanged(nameof(StockPrice)); OnPropertyChanged(nameof(TotalPrice)); }
         }
 
         public int SharesToBuy
         {
             get { return _sharesToBuy; }
-            set { _sharesToBuy = value; OnPropertyChange(nameof(SharesToBuy)); OnPropertyChange(nameof(TotalPrice)); }
+            set { _sharesToBuy = value; OnPropertyChanged(nameof(SharesToBuy)); OnPropertyChanged(nameof(TotalPrice)); }
         }
 
         public double TotalPrice { get { return SharesToBuy * StockPrice; } }

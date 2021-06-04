@@ -10,13 +10,6 @@ namespace TutoMVVM.WpfApplication.State.Navigators
     {
         private ViewModelBase _currentViewModel;
 
-        public ICommand updateCurrentViewModelCommand { get; set; }
-
-        public Navigator(IRootViewModelFactory viewModelAbstractFactory)
-        {
-            updateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelAbstractFactory);
-        }
-
         public ViewModelBase CurrentViewModel
         {
             get
@@ -26,7 +19,7 @@ namespace TutoMVVM.WpfApplication.State.Navigators
             set
             {
                 _currentViewModel = value;
-                OnPropertyChange(nameof(CurrentViewModel));
+                OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
     }

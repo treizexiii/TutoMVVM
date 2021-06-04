@@ -5,6 +5,7 @@ namespace TutoMVVM.WpfApplication.State.Navigators
 {
     public enum ViewType
     {
+        Login,
         Home,
         Potfolio,
         Buy,
@@ -14,6 +15,5 @@ namespace TutoMVVM.WpfApplication.State.Navigators
     public interface INavigator
     {
         ViewModelBase CurrentViewModel { get; set; }
-        ICommand updateCurrentViewModelCommand { get; }
     }
 }

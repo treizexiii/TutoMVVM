@@ -7,7 +7,7 @@ using TutoMVVM.EntityFramework.Services.Common;
 
 namespace TutoMVVM.EntityFramework.Services
 {
-    public class AccountDataService : IDataService<Account>
+    public class AccountDataService : IAccountService
     {
         private readonly TutoMVVMDbContextFactory _contextFactory;
         private readonly NonQueryDataService<Account> _nonQueryDataService;
@@ -37,7 +37,10 @@ namespace TutoMVVM.EntityFramework.Services
         {
             using (TutoMVVMDbContext context = _contextFactory.CreateDbContext())
             {
-                return await context.Accounts.Include(a => a.AssetTransactions).FirstOrDefaultAsync(e => e.Id == id);
+                return await context.Accounts
+                    .Include(a => a.AccountHolder)
+                    .Include(a => a.AssetTransactions)
+                    .FirstOrDefaultAsync(e => e.Id == id);
             }
         }
 
@@ -45,7 +48,32 @@ namespace TutoMVVM.EntityFramework.Services
         {
             using (TutoMVVMDbContext context = _contextFactory.CreateDbContext())
             {
-                return await context.Accounts.Include(a => a.AssetTransactions).ToListAsync();
+                return await context.Accounts
+                    .Include(a => a.AccountHolder)
+                    .Include(a => a.AssetTransactions)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<Account> GetByUsername(string username)
+        {
+            using (TutoMVVMDbContext context = _contextFactory.CreateDbContext())
+            {
+                return await context.Accounts
+                    .Include(a => a.AccountHolder)
+                    .Include(a => a.AssetTransactions)
+                    .FirstOrDefaultAsync(e => e.AccountHolder.Username == username);
+            }
+        }
+
+        public async Task<Account> GetByEmail(string email)
+        {
+            using (TutoMVVMDbContext context = _contextFactory.CreateDbContext())
+            {
+                return await context.Accounts
+                    .Include(a => a.AccountHolder)
+                    .Include(a => a.AssetTransactions)
+                    .FirstOrDefaultAsync(e => e.AccountHolder.Email == email);
             }
         }
     }

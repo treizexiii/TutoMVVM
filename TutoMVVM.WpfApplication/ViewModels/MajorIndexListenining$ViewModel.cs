@@ -13,19 +13,19 @@ namespace TutoMVVM.WpfApplication.ViewModels
         public MajorIndex DowJones
         {
             get { return _dowJones; }
-            set { _dowJones = value; OnPropertyChange(nameof(DowJones)); }
+            set { _dowJones = value; OnPropertyChanged(nameof(DowJones)); }
         }
 
         public MajorIndex Nasdaq
         {
             get { return _nasdaq; }
-            set { _nasdaq = value; OnPropertyChange(nameof(Nasdaq)); }
+            set { _nasdaq = value; OnPropertyChanged(nameof(Nasdaq)); }
         }
 
         public MajorIndex SP500
         {
             get { return _sp500; }
-            set { _sp500 = value; OnPropertyChange(nameof(SP500)); }
+            set { _sp500 = value; OnPropertyChanged(nameof(SP500)); }
         }
 
 

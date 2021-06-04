@@ -10,6 +10,16 @@
 A trading WPF application with purpose of learning the Model View ViewModel development method.
 ## 2. Versions
 
+Version 0.6:
+
+- Implement an authentication service for register and log
+- Refactoring the navigation control to avoid circle dependency
+- Implement a redirection service
+- Immplement a new project for Units test
+- Add Unit test for authentication service
+- Add view and viewmodel for login
+- Refactoring the ressource dictionnary for textbox and passwordbox
+
 Version 0.5:
 
 - Add view and viewmodel for Major Indexes
@@ -36,7 +46,7 @@ Version 0.1:
 
 To come up:
 
-- Authentification system
+- Authentification system - done
 - User control for accounts
 - Selling interfarce for stocks
-- Optimisation improvement
+- performance optimization

@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutoMVVM.WpfApplication", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TutoMVVM.FinancialModelingPrepAPI", "TutoMVVM.FinancialModelingPrepAPI\TutoMVVM.FinancialModelingPrepAPI.csproj", "{4022F7D4-F58E-4887-928F-6B92E5703062}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutoMVVM.Domain.UnitTests", "TutoMVVM.Domain.UnitTests\TutoMVVM.Domain.UnitTests.csproj", "{AEAC1F84-F390-4589-981E-ACBC01282541}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4022F7D4-F58E-4887-928F-6B92E5703062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4022F7D4-F58E-4887-928F-6B92E5703062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4022F7D4-F58E-4887-928F-6B92E5703062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEAC1F84-F390-4589-981E-ACBC01282541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEAC1F84-F390-4589-981E-ACBC01282541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEAC1F84-F390-4589-981E-ACBC01282541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEAC1F84-F390-4589-981E-ACBC01282541}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

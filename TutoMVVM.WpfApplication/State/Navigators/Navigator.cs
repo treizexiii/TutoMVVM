@@ -1,12 +1,9 @@
-﻿using System.Windows.Input;
-using TutoMVVM.WpfApplication.Commands;
-using TutoMVVM.WpfApplication.Models;
+﻿using System;
 using TutoMVVM.WpfApplication.ViewModels;
-using TutoMVVM.WpfApplication.ViewModels.Factories;
 
 namespace TutoMVVM.WpfApplication.State.Navigators
 {
-    public class Navigator : ObservableObject, INavigator
+    public class Navigator : INavigator
     {
         private ViewModelBase _currentViewModel;
 
@@ -19,8 +16,10 @@ namespace TutoMVVM.WpfApplication.State.Navigators
             set
             {
                 _currentViewModel = value;
-                OnPropertyChanged(nameof(CurrentViewModel));
+                StateChanged?.Invoke();
             }
         }
+
+        public event Action StateChanged;
     }
 }

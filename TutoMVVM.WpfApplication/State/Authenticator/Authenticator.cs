@@ -1,30 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TutoMVVM.Domain.Models;
 using TutoMVVM.Domain.Services.AuthenticationServices;
-using TutoMVVM.WpfApplication.Models;
+using TutoMVVM.WpfApplication.State.Accounts;
 
 namespace TutoMVVM.WpfApplication.State.Authenticator
 {
-    public class Authenticator : ObservableObject, IAuthenticator
+    public class Authenticator : IAuthenticator
     {
         private readonly IAuthenticationService _authenticationService;
-        private Account _currentAccount;
+        private IAccountStore _accountStore;
 
         public Account CurrentAccount
         {
-            get { return _currentAccount; }
-            private set { _currentAccount = value; OnPropertyChanged(nameof(CurrentAccount)); OnPropertyChanged(nameof(IsLoggedIn)); }
+            get { return _accountStore.CurrentAccount; }
+            private set { _accountStore.CurrentAccount = value; StateChanged?.Invoke(); }
         }
 
         public bool IsLoggedIn => CurrentAccount != null;
 
-        public Authenticator(IAuthenticationService authenticationService)
+        public event Action StateChanged;
+
+        public Authenticator(IAuthenticationService authenticationService, IAccountStore currentAccount)
         {
             _authenticationService = authenticationService;
+            _accountStore = currentAccount;
         }
 
         public async Task<bool> Login(string username, string password)
@@ -41,7 +41,7 @@ namespace TutoMVVM.WpfApplication.State.Authenticator
             return success;
         }
 
-        public async void Logout()
+        public void Logout()
         {
             CurrentAccount = null;
         }

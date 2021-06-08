@@ -11,6 +11,8 @@ using TutoMVVM.EntityFramework;
 using TutoMVVM.EntityFramework.Services;
 using TutoMVVM.FinancialModelingPrepAPI;
 using TutoMVVM.FinancialModelingPrepAPI.Services;
+using TutoMVVM.WpfApplication.State.Accounts;
+using TutoMVVM.WpfApplication.State.Assets;
 using TutoMVVM.WpfApplication.State.Authenticator;
 using TutoMVVM.WpfApplication.State.Navigators;
 using TutoMVVM.WpfApplication.ViewModels;
@@ -50,21 +52,40 @@ namespace TutoMVVM.WpfApplication
 
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
-            services.AddSingleton<IRootViewModelFactory, RootViewModelFactory>();
-            services.AddSingleton<IViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
-            services.AddSingleton<IViewModelFactory<PortfolioViewModel>, PortfolioViewModelFactory>();
-            services.AddSingleton<IViewModelFactory<MajorIndexListeningViewModel>, MajorIndexListeningViewModelFactory>();
+            services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+            services.AddSingleton<BuyViewModel>();
+            services.AddSingleton<PortfolioViewModel>();
+            services.AddSingleton<AssetSummaryViewModel>();
+            services.AddSingleton<HomeViewModel>(services => new HomeViewModel(
+                    MajorIndexListeningViewModel.LoadMajorIndexViewModel(
+                        services.GetRequiredService<IMajorIndexService>()),
+                    services.GetRequiredService<AssetSummaryViewModel>()));
 
-            services.AddSingleton<IViewModelFactory<LoginViewModel>>(
-                (services) =>
-                    new LoginViewModelFactory(
-                            services.GetRequiredService<IAuthenticator>(),
-                            new ViewModelFactoryRenavigaor<HomeViewModel>(
-                                services.GetRequiredService<INavigator>(),
-                                services.GetRequiredService<IViewModelFactory<HomeViewModel>>())));
+            services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<HomeViewModel>();
+            });
 
-            services.AddScoped<INavigator, Navigator>();
-            services.AddScoped<IAuthenticator, Authenticator>();
+            services.AddSingleton<CreateViewModel<PortfolioViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<PortfolioViewModel>();
+            });
+            services.AddSingleton<CreateViewModel<BuyViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<BuyViewModel>();
+            });
+            services.AddSingleton<ViewModelDelegateRenavigaor<HomeViewModel>>();
+            services.AddSingleton<CreateViewModel<LoginViewModel>>(services =>
+            {
+                return () => new LoginViewModel(
+                    services.GetRequiredService<IAuthenticator>(),
+                    services.GetRequiredService<ViewModelDelegateRenavigaor<HomeViewModel>>());
+            });
+
+            services.AddSingleton<INavigator, Navigator>();
+            services.AddSingleton<IAuthenticator, Authenticator>();
+            services.AddSingleton<IAccountStore, AccountStore>();
+            services.AddSingleton<AssetStore>();
             services.AddScoped<MainViewModel>();
             services.AddScoped<BuyViewModel>();
 

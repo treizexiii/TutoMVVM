@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TutoMVVM.FinancialModelingPrepAPI
+﻿namespace TutoMVVM.FinancialModelingPrepAPI
 {
     public class FinancialModelingPrepHttpClientFactory
     {
@@ -17,7 +11,7 @@ namespace TutoMVVM.FinancialModelingPrepAPI
 
         public FinancialModelingPrepHttpClient CreateHttpClient()
         {
-            return new FinancialModelingPrepHttpClient(_apiKey); 
+            return new FinancialModelingPrepHttpClient(_apiKey);
         }
     }
 }

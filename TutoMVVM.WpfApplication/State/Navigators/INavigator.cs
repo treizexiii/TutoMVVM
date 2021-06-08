@@ -1,4 +1,4 @@
-﻿using System.Windows.Input;
+﻿using System;
 using TutoMVVM.WpfApplication.ViewModels;
 
 namespace TutoMVVM.WpfApplication.State.Navigators
@@ -15,5 +15,6 @@ namespace TutoMVVM.WpfApplication.State.Navigators
     public interface INavigator
     {
         ViewModelBase CurrentViewModel { get; set; }
+        event Action StateChanged;
     }
 }

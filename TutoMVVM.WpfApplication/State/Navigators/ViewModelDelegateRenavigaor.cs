@@ -1,0 +1,21 @@
+﻿using TutoMVVM.WpfApplication.ViewModels;
+
+namespace TutoMVVM.WpfApplication.State.Navigators
+{
+    public class ViewModelDelegateRenavigaor<TViewModel> : IRenavigator where TViewModel : ViewModelBase
+    {
+        private readonly INavigator _navigator;
+        private readonly CreateViewModel<TViewModel> _createViewModel;
+
+        public ViewModelDelegateRenavigaor(INavigator navigator, CreateViewModel<TViewModel> createViewModel)
+        {
+            _navigator = navigator;
+            _createViewModel = createViewModel;
+        }
+
+        public void Renavigate()
+        {
+            _navigator.CurrentViewModel = _createViewModel();
+        }
+    }
+}

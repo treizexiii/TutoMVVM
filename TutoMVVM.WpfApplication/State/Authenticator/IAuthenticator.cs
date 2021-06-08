@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using TutoMVVM.Domain.Models;
 using TutoMVVM.Domain.Services.AuthenticationServices;
 
@@ -9,6 +10,7 @@ namespace TutoMVVM.WpfApplication.State.Authenticator
         Account CurrentAccount { get; }
         bool IsLoggedIn { get; }
 
+        event Action StateChanged;
         Task<RegistrationResult> Register(string email, string username, string password, string confirmPassword);
         Task<bool> Login(string username, string password);
         void Logout();

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Windows.Controls;
 using System.Windows.Input;
 using TutoMVVM.WpfApplication.State.Authenticator;
 using TutoMVVM.WpfApplication.State.Navigators;
 using TutoMVVM.WpfApplication.ViewModels;
-using TutoMVVM.WpfApplication.ViewModels.Factories;
 
 namespace TutoMVVM.WpfApplication.Commands
 {

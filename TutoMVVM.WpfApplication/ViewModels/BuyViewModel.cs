@@ -2,6 +2,7 @@
 using TutoMVVM.Domain.Services;
 using TutoMVVM.Domain.Services.TransationServices;
 using TutoMVVM.WpfApplication.Commands;
+using TutoMVVM.WpfApplication.State.Accounts;
 
 namespace TutoMVVM.WpfApplication.ViewModels
 {
@@ -41,10 +42,10 @@ namespace TutoMVVM.WpfApplication.ViewModels
         public ICommand SearchSymbolCommand { get; set; }
         public ICommand BuyStockCommand { get; set; }
 
-        public BuyViewModel(IStockPriceService stockPriceService, IBuyStockService buyStockService)
+        public BuyViewModel(IStockPriceService stockPriceService, IBuyStockService buyStockService, IAccountStore accountStore)
         {
             SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService);
-            BuyStockCommand = new BuyStockCommand(this, buyStockService);
+            BuyStockCommand = new BuyStockCommand(this, buyStockService, accountStore);
         }
 
     }

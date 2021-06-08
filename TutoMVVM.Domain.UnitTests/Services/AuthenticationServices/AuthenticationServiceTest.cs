@@ -32,7 +32,7 @@ namespace TutoMVVM.Domain.UnitTests.Services.AuthenticationServices
             string expectedUsername = "testUser";
             string password = "testPassword";
             _mockAccountService.Setup(s => s.GetByUsername(expectedUsername)).ReturnsAsync(new Account() { AccountHolder = new User() { Username = expectedUsername } });
-            _mockPasswordHasher.Setup(s => s.VerifyHashedPassword(It.IsAny<string>() ,password)).Returns(PasswordVerificationResult.Success);
+            _mockPasswordHasher.Setup(s => s.VerifyHashedPassword(It.IsAny<string>(), password)).Returns(PasswordVerificationResult.Success);
 
             // Act
             Account account = await _authenticationService.Login(expectedUsername, password);

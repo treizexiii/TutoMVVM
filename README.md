@@ -5,10 +5,20 @@
   - [2. Versions](#2-versions)
   - [3. RoadMap](#3-roadmap)
 
+#
 ## 1. Introduction
 
 A trading WPF application with purpose of learning the Model View ViewModel development method.
+#
 ## 2. Versions
+
+Version 0.65
+- Add a wallet view and viemModel
+- Add a dynamic asset transaction logic
+- Implement a delegated function to build the ViewModel
+- Refactoring statement in view
+- Refactoring and improve security for authentication and navigation
+- Improve security with a better separation between ViewModel and logic services
 
 Version 0.6:
 
@@ -42,6 +52,7 @@ Version 0.1:
 - Add database's services
 - Add README
 
+#
 ## 3. RoadMap
 
 To come up:

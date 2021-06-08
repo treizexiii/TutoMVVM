@@ -1,7 +1,9 @@
-﻿namespace TutoMVVM.WpfApplication.ViewModels.Factories
+﻿using TutoMVVM.WpfApplication.State.Navigators;
+
+namespace TutoMVVM.WpfApplication.ViewModels.Factories
 {
-    public interface IViewModelFactory<T> where T : ViewModelBase
+    public interface IViewModelFactory
     {
-        T CreateViewModel();
+        ViewModelBase CreateViewModel(ViewType viewtType);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TutoMVVM.Domain.Exceptions;
 using TutoMVVM.Domain.Services;
 using TutoMVVM.FinancialModelingPrepAPI.Results;

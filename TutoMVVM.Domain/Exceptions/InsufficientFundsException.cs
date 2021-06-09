@@ -2,7 +2,7 @@
 
 namespace TutoMVVM.Domain.Exceptions
 {
-    class InsufficientFundsException : Exception
+    public class InsufficientFundsException : Exception
     {
         public double AccountBalance { get; set; }
         public double RequiredBalance { get; set; }

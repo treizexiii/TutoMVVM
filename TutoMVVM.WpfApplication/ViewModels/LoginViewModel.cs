@@ -9,6 +9,9 @@ namespace TutoMVVM.WpfApplication.ViewModels
     {
         private string _username;
 
+        public MessageVIewModel ErrorMessageViewModel { get; set; }
+        public string ErrorMessage { set => ErrorMessageViewModel.Message = value; }
+
         public string Username
         {
             get { return _username; }
@@ -20,6 +23,7 @@ namespace TutoMVVM.WpfApplication.ViewModels
         public LoginViewModel(IAuthenticator authenticator, IRenavigator renavigator)
         {
             LoginCommand = new LoginCommand(this, authenticator, renavigator);
+            ErrorMessageViewModel = new MessageVIewModel();
         }
     }
 }

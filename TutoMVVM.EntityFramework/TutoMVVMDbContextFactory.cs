@@ -3,12 +3,19 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace TutoMVVM.EntityFramework
 {
-    public class TutoMVVMDbContextFactory : IDesignTimeDbContextFactory<TutoMVVMDbContext>
+    public class TutoMVVMDbContextFactory
     {
-        public TutoMVVMDbContext CreateDbContext(string[] args = null)
+        private readonly string _connectionString;
+
+        public TutoMVVMDbContextFactory(string connectionString)
         {
-            var options = new DbContextOptionsBuilder<TutoMVVMDbContext>();
-            options.UseSqlServer("Server=.\\SQLEXPRESS;Database=TutoMVVM;Trusted_Connection=true");
+            _connectionString = connectionString;
+        }
+
+        public TutoMVVMDbContext CreateDbContext()
+        {
+            DbContextOptionsBuilder<TutoMVVMDbContext> options = new DbContextOptionsBuilder<TutoMVVMDbContext>();
+            options.UseSqlServer(_connectionString);
 
             return new TutoMVVMDbContext(options.Options);
         }

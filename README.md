@@ -12,13 +12,21 @@ A trading WPF application with purpose of learning the Model View ViewModel deve
 #
 ## 2. Versions
 
-Version 0.65
+Version 0.66:
+- Add Json settings file for APIs and DB connection
+- Implement host builder for DB connection
+- Implement status and error message in view
+- Implement async Command
+- Improve the exception management
+
+Version 0.65:
+
 - Add a wallet view and viemModel
 - Add a dynamic asset transaction logic
 - Implement a delegated function to build the ViewModel
 - Refactoring statement in view
 - Refactoring and improve security for authentication and navigation
-- Improve security with a better separation between ViewModel and logic services
+- Improve security with a better separation between ViewModel and logic
 
 Version 0.6:
 

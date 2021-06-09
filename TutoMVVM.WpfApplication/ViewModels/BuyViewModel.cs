@@ -39,6 +39,11 @@ namespace TutoMVVM.WpfApplication.ViewModels
 
         public double TotalPrice { get { return SharesToBuy * StockPrice; } }
 
+        public MessageVIewModel ErrorMessageViewModel { get; set; }
+        public string ErrorMessage { set => ErrorMessageViewModel.Message = value; }
+        public MessageVIewModel StatusMessageViewModel { get; set; }
+        public string StatusMessage { set => StatusMessageViewModel.Message = value; }
+
         public ICommand SearchSymbolCommand { get; set; }
         public ICommand BuyStockCommand { get; set; }
 
@@ -46,7 +51,8 @@ namespace TutoMVVM.WpfApplication.ViewModels
         {
             SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService);
             BuyStockCommand = new BuyStockCommand(this, buyStockService, accountStore);
+            ErrorMessageViewModel = new MessageVIewModel();
+            StatusMessageViewModel = new MessageVIewModel();
         }
-
     }
 }

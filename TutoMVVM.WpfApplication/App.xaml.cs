@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Extensions.Hosting;
 using System.Configuration;
 using System.Windows;
 using TutoMVVM.Domain.Models;
@@ -25,73 +27,94 @@ namespace TutoMVVM.WpfApplication
     /// </summary>
     public partial class App : Application
     {
+        private readonly IHost _host;
+
+        public App()
+        {
+            _host = CreateHostBuilder().Build();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args = null)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(c =>
+                {
+                    c.AddJsonFile("appsettings.json");
+                    c.AddEnvironmentVariables();
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    string apiKey = context.Configuration.GetValue<string>("financeApiKey");
+
+                    services.AddSingleton<FinancialModelingPrepHttpClientFactory>(new FinancialModelingPrepHttpClientFactory(apiKey));
+
+                    string connectionString = context.Configuration.GetConnectionString("default");
+                    services.AddDbContext<TutoMVVMDbContext>(o => o.UseSqlServer(connectionString));
+                    services.AddSingleton<TutoMVVMDbContextFactory>(new TutoMVVMDbContextFactory(connectionString));
+                    services.AddSingleton<IAuthenticationService, AuthenticationService>();
+                    services.AddSingleton<IDataService<Account>, AccountDataService>();
+                    services.AddSingleton<IAccountService, AccountDataService>();
+                    services.AddSingleton<IStockPriceService, StockPriceService>();
+                    services.AddSingleton<IBuyStockService, BuyStockService>();
+                    services.AddSingleton<IMajorIndexService, MajorIndexService>();
+
+                    services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
+                    services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+                    services.AddSingleton<BuyViewModel>();
+                    services.AddSingleton<PortfolioViewModel>();
+                    services.AddSingleton<AssetSummaryViewModel>();
+                    services.AddSingleton<HomeViewModel>(services => new HomeViewModel(
+                            MajorIndexListeningViewModel.LoadMajorIndexViewModel(
+                                services.GetRequiredService<IMajorIndexService>()),
+                            services.GetRequiredService<AssetSummaryViewModel>()));
+
+                    services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
+                    {
+                        return () => services.GetRequiredService<HomeViewModel>();
+                    });
+
+                    services.AddSingleton<CreateViewModel<PortfolioViewModel>>(services =>
+                    {
+                        return () => services.GetRequiredService<PortfolioViewModel>();
+                    });
+                    services.AddSingleton<CreateViewModel<BuyViewModel>>(services =>
+                    {
+                        return () => services.GetRequiredService<BuyViewModel>();
+                    });
+                    services.AddSingleton<ViewModelDelegateRenavigaor<HomeViewModel>>();
+                    services.AddSingleton<CreateViewModel<LoginViewModel>>(services =>
+                    {
+                        return () => new LoginViewModel(
+                            services.GetRequiredService<IAuthenticator>(),
+                            services.GetRequiredService<ViewModelDelegateRenavigaor<HomeViewModel>>());
+                    });
+
+                    services.AddSingleton<INavigator, Navigator>();
+                    services.AddSingleton<IAuthenticator, Authenticator>();
+                    services.AddSingleton<IAccountStore, AccountStore>();
+                    services.AddSingleton<AssetStore>();
+                    services.AddScoped<MainViewModel>();
+                    services.AddScoped<BuyViewModel>();
+
+                    services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+                });
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            IServiceProvider serviceProvider = CreateServiceProvider();
-
-            MainWindow window = serviceProvider.GetRequiredService<MainWindow>();
+            _host.Start();
+            MainWindow window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();
 
             base.OnStartup(e);
         }
 
-        private IServiceProvider CreateServiceProvider()
+        protected override async void OnExit(ExitEventArgs e)
         {
-            IServiceCollection services = new ServiceCollection();
-
-            string apiKey = ConfigurationManager.AppSettings.Get("financeApiKey");
-            services.AddSingleton<FinancialModelingPrepHttpClientFactory>(new FinancialModelingPrepHttpClientFactory(apiKey));
-
-            services.AddSingleton<TutoMVVMDbContextFactory>();
-            services.AddSingleton<IAuthenticationService, AuthenticationService>();
-            services.AddSingleton<IDataService<Account>, AccountDataService>();
-            services.AddSingleton<IAccountService, AccountDataService>();
-            services.AddSingleton<IStockPriceService, StockPriceService>();
-            services.AddSingleton<IBuyStockService, BuyStockService>();
-            services.AddSingleton<IMajorIndexService, MajorIndexService>();
-
-            services.AddSingleton<IPasswordHasher, PasswordHasher>();
-
-            services.AddSingleton<IViewModelFactory, ViewModelFactory>();
-            services.AddSingleton<BuyViewModel>();
-            services.AddSingleton<PortfolioViewModel>();
-            services.AddSingleton<AssetSummaryViewModel>();
-            services.AddSingleton<HomeViewModel>(services => new HomeViewModel(
-                    MajorIndexListeningViewModel.LoadMajorIndexViewModel(
-                        services.GetRequiredService<IMajorIndexService>()),
-                    services.GetRequiredService<AssetSummaryViewModel>()));
-
-            services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<HomeViewModel>();
-            });
-
-            services.AddSingleton<CreateViewModel<PortfolioViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<PortfolioViewModel>();
-            });
-            services.AddSingleton<CreateViewModel<BuyViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<BuyViewModel>();
-            });
-            services.AddSingleton<ViewModelDelegateRenavigaor<HomeViewModel>>();
-            services.AddSingleton<CreateViewModel<LoginViewModel>>(services =>
-            {
-                return () => new LoginViewModel(
-                    services.GetRequiredService<IAuthenticator>(),
-                    services.GetRequiredService<ViewModelDelegateRenavigaor<HomeViewModel>>());
-            });
-
-            services.AddSingleton<INavigator, Navigator>();
-            services.AddSingleton<IAuthenticator, Authenticator>();
-            services.AddSingleton<IAccountStore, AccountStore>();
-            services.AddSingleton<AssetStore>();
-            services.AddScoped<MainViewModel>();
-            services.AddScoped<BuyViewModel>();
-
-            services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
-
-            return services.BuildServiceProvider();
+            await _host.StopAsync();
+            _host.Dispose();
+            base.OnExit(e);
         }
     }
 }

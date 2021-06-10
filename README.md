@@ -12,6 +12,11 @@ A trading WPF application with purpose of learning the Model View ViewModel deve
 #
 ## 2. Versions
 
+Version 0.7:
+- Add view for the Portfolio
+- Add view and viewmodel for the registration
+- Improve logic and re-usability for assets list
+
 Version 0.66:
 - Add Json settings file for APIs and DB connection
 - Implement host builder for DB connection
@@ -68,4 +73,5 @@ To come up:
 - Authentification system - done
 - User control for accounts
 - Selling interfarce for stocks
+- UI improvements
 - performance optimization

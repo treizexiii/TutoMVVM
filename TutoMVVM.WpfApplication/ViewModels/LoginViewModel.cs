@@ -19,11 +19,13 @@ namespace TutoMVVM.WpfApplication.ViewModels
         }
 
         public ICommand LoginCommand { get; set; }
+        public ICommand ViewRegisterCommand { get; set; }
 
-        public LoginViewModel(IAuthenticator authenticator, IRenavigator renavigator)
+        public LoginViewModel(IAuthenticator authenticator, IRenavigator loginRenavigator, IRenavigator registerRenavigator)
         {
-            LoginCommand = new LoginCommand(this, authenticator, renavigator);
+            LoginCommand = new LoginCommand(this, authenticator, loginRenavigator);
             ErrorMessageViewModel = new MessageVIewModel();
+            ViewRegisterCommand = new RenavigateCommand(registerRenavigator);
         }
     }
 }

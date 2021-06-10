@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
 using System.Windows;
 using TutoMVVM.Domain.Models;
 using TutoMVVM.Domain.Services;
@@ -69,6 +68,10 @@ namespace TutoMVVM.WpfApplication
                                 services.GetRequiredService<IMajorIndexService>()),
                             services.GetRequiredService<AssetSummaryViewModel>()));
 
+                    services.AddSingleton<ViewModelDelegateRenavigaor<HomeViewModel>>();
+                    services.AddSingleton<ViewModelDelegateRenavigaor<RegisterViewModel>>();
+                    services.AddSingleton<ViewModelDelegateRenavigaor<LoginViewModel>>();
+
                     services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
                     {
                         return () => services.GetRequiredService<HomeViewModel>();
@@ -82,12 +85,20 @@ namespace TutoMVVM.WpfApplication
                     {
                         return () => services.GetRequiredService<BuyViewModel>();
                     });
-                    services.AddSingleton<ViewModelDelegateRenavigaor<HomeViewModel>>();
+                    services.AddSingleton<CreateViewModel<RegisterViewModel>>(services =>
+                    {
+                        return () => new RegisterViewModel(
+                            services.GetRequiredService<ViewModelDelegateRenavigaor<LoginViewModel>>(),
+                            services.GetRequiredService<IAuthenticator>(),
+                            services.GetRequiredService<ViewModelDelegateRenavigaor<LoginViewModel>>());
+                    });
+
                     services.AddSingleton<CreateViewModel<LoginViewModel>>(services =>
                     {
                         return () => new LoginViewModel(
                             services.GetRequiredService<IAuthenticator>(),
-                            services.GetRequiredService<ViewModelDelegateRenavigaor<HomeViewModel>>());
+                            services.GetRequiredService<ViewModelDelegateRenavigaor<HomeViewModel>>(),
+                            services.GetRequiredService<ViewModelDelegateRenavigaor<RegisterViewModel>>());
                     });
 
                     services.AddSingleton<INavigator, Navigator>();
@@ -95,7 +106,6 @@ namespace TutoMVVM.WpfApplication
                     services.AddSingleton<IAccountStore, AccountStore>();
                     services.AddSingleton<AssetStore>();
                     services.AddScoped<MainViewModel>();
-                    services.AddScoped<BuyViewModel>();
 
                     services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
                 });

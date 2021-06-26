@@ -7,24 +7,21 @@ namespace TutoMVVM.FinancialModelingPrepAPI.Services
 {
     public class MajorIndexService : IMajorIndexService
     {
-        private readonly FinancialModelingPrepHttpClientFactory _httpClientFactory;
+        private readonly FinancialModelingPrepHttpClient _client;
 
-        public MajorIndexService(FinancialModelingPrepHttpClientFactory httpClientFactory)
+        public MajorIndexService(FinancialModelingPrepHttpClient client)
         {
-            _httpClientFactory = httpClientFactory;
+            _client = client;
         }
 
         public async Task<MajorIndex> GetMajorIndex(MajorIndexType indexType)
         {
-            using (FinancialModelingPrepHttpClient client = _httpClientFactory.CreateHttpClient())
-            {
-                var response = await client.GetAsync<MajorIndex>("majors-indexes/" + GetUriSuffix(indexType));
-                response.Type = indexType;
-                return response;
-            }
+            var response = await _client.GetAsync<MajorIndex>("majors-indexes/" + GetUriSuffix(indexType));
+            response.Type = indexType;
+            return response;
         }
 
-        private string GetUriSuffix(MajorIndexType indexType)
+        private static string GetUriSuffix(MajorIndexType indexType)
         {
             switch (indexType)
             {

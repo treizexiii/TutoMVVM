@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Input;
-using TutoMVVM.Domain.Models;
+using System.Threading.Tasks;
 using TutoMVVM.Domain.Exceptions;
+using TutoMVVM.Domain.Models;
 using TutoMVVM.Domain.Services.TransationServices;
 using TutoMVVM.WpfApplication.State.Accounts;
 using TutoMVVM.WpfApplication.ViewModels;
-using System.Threading.Tasks;
 
 namespace TutoMVVM.WpfApplication.Commands
 {

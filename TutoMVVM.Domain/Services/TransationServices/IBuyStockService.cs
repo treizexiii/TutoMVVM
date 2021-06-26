@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using TutoMVVM.Domain.Models;
 using TutoMVVM.Domain.Exceptions;
+using TutoMVVM.Domain.Models;
 
 namespace TutoMVVM.Domain.Services.TransationServices
 {

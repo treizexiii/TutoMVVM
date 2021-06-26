@@ -3,11 +3,11 @@
 namespace TutoMVVM.WpfApplication.Controls
 {
     /// <summary>
-    /// Interaction logic for AssetSummary.xaml
+    /// Interaction logic for SearchSymbolResultPanel.xaml
     /// </summary>
-    public partial class AssetSummary : UserControl
+    public partial class SearchSymbolResultPanel : UserControl
     {
-        public AssetSummary()
+        public SearchSymbolResultPanel()
         {
             InitializeComponent();
         }

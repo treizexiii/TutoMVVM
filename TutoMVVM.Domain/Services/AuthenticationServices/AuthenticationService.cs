@@ -65,7 +65,8 @@ namespace TutoMVVM.Domain.Services.AuthenticationServices
 
                 Account account = new Account()
                 {
-                    AccountHolder = user
+                    AccountHolder = user,
+                    Balance = 5000
                 };
 
                 await _accountService.Create(account);

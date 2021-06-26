@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using TutoMVVM.Domain.Exceptions;
 using TutoMVVM.WpfApplication.State.Authenticator;
 using TutoMVVM.WpfApplication.State.Navigators;
@@ -29,17 +28,17 @@ namespace TutoMVVM.WpfApplication.Commands
             {
                 await _authenticator.Login(_loginViewModel.Username, parameter.ToString());
 
-                _renavigator.Renavigate(); 
+                _renavigator.Renavigate();
             }
             catch (UserNotFoundException)
             {
-                _loginViewModel.ErrorMessage = "User name does not exist.";
+                _loginViewModel.ErrorMessage = "Username does not exist.";
             }
             catch (InvalidPasswordException)
             {
                 _loginViewModel.ErrorMessage = "Incorrect password";
             }
-            catch(Exception)
+            catch (Exception)
             {
                 _loginViewModel.ErrorMessage = "Login failed";
             }

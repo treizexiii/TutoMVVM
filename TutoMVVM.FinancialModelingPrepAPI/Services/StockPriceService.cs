@@ -7,26 +7,23 @@ namespace TutoMVVM.FinancialModelingPrepAPI.Services
 {
     public class StockPriceService : IStockPriceService
     {
-        private readonly FinancialModelingPrepHttpClientFactory _httpClientFactory;
+        private readonly FinancialModelingPrepHttpClient _client;
 
-        public StockPriceService(FinancialModelingPrepHttpClientFactory httpClientFactory)
+        public StockPriceService(FinancialModelingPrepHttpClient client)
         {
-            _httpClientFactory = httpClientFactory;
+            _client = client;
         }
 
         public async Task<double> GetPrice(string symbol)
         {
-            using (FinancialModelingPrepHttpClient client = _httpClientFactory.CreateHttpClient())
+            StockPriceResult response = await _client.GetAsync<StockPriceResult>("stock/real-time-price/" + symbol);
+
+            if (response.Price == 0)
             {
-                StockPriceResult response = await client.GetAsync<StockPriceResult>("stock/real-time-price/" + symbol);
-
-                if (response.Price == 0)
-                {
-                    throw new InvalidSymbolException(symbol);
-                }
-
-                return response.Price;
+                throw new InvalidSymbolException(symbol);
             }
+
+            return response.Price;
         }
     }
 }

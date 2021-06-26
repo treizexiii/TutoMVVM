@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TutoMVVM.WpfApplication.Commands;
 using TutoMVVM.WpfApplication.State.Authenticator;
 using TutoMVVM.WpfApplication.State.Navigators;

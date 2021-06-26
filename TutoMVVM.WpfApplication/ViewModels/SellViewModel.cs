@@ -3,20 +3,21 @@ using TutoMVVM.Domain.Services;
 using TutoMVVM.Domain.Services.TransationServices;
 using TutoMVVM.WpfApplication.Commands;
 using TutoMVVM.WpfApplication.State.Accounts;
+using TutoMVVM.WpfApplication.State.Assets;
 
 namespace TutoMVVM.WpfApplication.ViewModels
 {
-    public class BuyViewModel : ViewModelBase, ISearchSymbolViewModel
+    public class SellViewModel : ViewModelBase, ISearchSymbolViewModel
     {
-        private string _symbol;
+        private AssetViewModel _selectedAsset;
         private string _searchResultSymbol = string.Empty;
         private double _stockPrice;
-        private int _sharesToBuy;
+        private int _sharesToSell;
 
-        public string Symbol
+        public AssetViewModel SelectedAsset
         {
-            get { return _symbol; }
-            set { _symbol = value; OnPropertyChanged(nameof(Symbol)); }
+            get { return _selectedAsset; }
+            set { _selectedAsset = value; OnPropertyChanged(nameof(SelectedAsset)); }
         }
 
         public string SearchResultSymbol
@@ -31,26 +32,34 @@ namespace TutoMVVM.WpfApplication.ViewModels
             set { _stockPrice = value; OnPropertyChanged(nameof(StockPrice)); OnPropertyChanged(nameof(TotalPrice)); }
         }
 
-        public int SharesToBuy
+        public int ShareToSell
         {
-            get { return _sharesToBuy; }
-            set { _sharesToBuy = value; OnPropertyChanged(nameof(SharesToBuy)); OnPropertyChanged(nameof(TotalPrice)); }
+            get { return _sharesToSell; }
+            set { _sharesToSell = value; OnPropertyChanged(nameof(ShareToSell)); OnPropertyChanged(nameof(TotalPrice)); }
         }
 
-        public double TotalPrice { get { return SharesToBuy * StockPrice; } }
+        public string Symbol => SelectedAsset?.Symbol;
+        public double TotalPrice => ShareToSell * StockPrice;
 
+        public ICommand SearchSymbolCommand { get; }
+        public ICommand SellStockCommand { get; }
+
+        public AssetListingViewModel AssetListingViewModel { get; }
         public MessageVIewModel ErrorMessageViewModel { get; set; }
         public string ErrorMessage { set => ErrorMessageViewModel.Message = value; }
         public MessageVIewModel StatusMessageViewModel { get; set; }
         public string StatusMessage { set => StatusMessageViewModel.Message = value; }
 
-        public ICommand SearchSymbolCommand { get; set; }
-        public ICommand BuyStockCommand { get; set; }
-
-        public BuyViewModel(IStockPriceService stockPriceService, IBuyStockService buyStockService, IAccountStore accountStore)
+        public SellViewModel(AssetStore assetStore,
+            IStockPriceService stockPriceService,
+            ISellStockService sellStockService,
+            IAccountStore accountStore)
         {
+            AssetListingViewModel = new AssetListingViewModel(assetStore);
+
             SearchSymbolCommand = new SearchSymbolCommand(this, stockPriceService);
-            BuyStockCommand = new BuyStockCommand(this, buyStockService, accountStore);
+            SellStockCommand = new SellStockCommand(this, sellStockService, accountStore);
+
             ErrorMessageViewModel = new MessageVIewModel();
             StatusMessageViewModel = new MessageVIewModel();
         }

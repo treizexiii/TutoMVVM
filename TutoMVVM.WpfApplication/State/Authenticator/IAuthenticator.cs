@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using TutoMVVM.Domain.Models;
 using TutoMVVM.Domain.Exceptions;
+using TutoMVVM.Domain.Models;
 using TutoMVVM.Domain.Services.AuthenticationServices;
 
 namespace TutoMVVM.WpfApplication.State.Authenticator

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using TutoMVVM.WpfApplication.State.Assets;
+﻿using TutoMVVM.WpfApplication.State.Assets;
 
 namespace TutoMVVM.WpfApplication.ViewModels
 {

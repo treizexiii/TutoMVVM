@@ -1,23 +1,10 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
-using TutoMVVM.Domain.Models;
-using TutoMVVM.Domain.Services;
-using TutoMVVM.Domain.Services.AuthenticationServices;
-using TutoMVVM.Domain.Services.TransationServices;
 using TutoMVVM.EntityFramework;
-using TutoMVVM.EntityFramework.Services;
-using TutoMVVM.FinancialModelingPrepAPI;
-using TutoMVVM.FinancialModelingPrepAPI.Services;
-using TutoMVVM.WpfApplication.State.Accounts;
-using TutoMVVM.WpfApplication.State.Assets;
-using TutoMVVM.WpfApplication.State.Authenticator;
-using TutoMVVM.WpfApplication.State.Navigators;
-using TutoMVVM.WpfApplication.ViewModels;
-using TutoMVVM.WpfApplication.ViewModels.Factories;
+using TutoMVVM.WpfApplication.HostBuilders;
 
 namespace TutoMVVM.WpfApplication
 {
@@ -36,84 +23,25 @@ namespace TutoMVVM.WpfApplication
         public static IHostBuilder CreateHostBuilder(string[] args = null)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(c =>
-                {
-                    c.AddJsonFile("appsettings.json");
-                    c.AddEnvironmentVariables();
-                })
-                .ConfigureServices((context, services) =>
-                {
-                    string apiKey = context.Configuration.GetValue<string>("financeApiKey");
-
-                    services.AddSingleton<FinancialModelingPrepHttpClientFactory>(new FinancialModelingPrepHttpClientFactory(apiKey));
-
-                    string connectionString = context.Configuration.GetConnectionString("default");
-                    services.AddDbContext<TutoMVVMDbContext>(o => o.UseSqlServer(connectionString));
-                    services.AddSingleton<TutoMVVMDbContextFactory>(new TutoMVVMDbContextFactory(connectionString));
-                    services.AddSingleton<IAuthenticationService, AuthenticationService>();
-                    services.AddSingleton<IDataService<Account>, AccountDataService>();
-                    services.AddSingleton<IAccountService, AccountDataService>();
-                    services.AddSingleton<IStockPriceService, StockPriceService>();
-                    services.AddSingleton<IBuyStockService, BuyStockService>();
-                    services.AddSingleton<IMajorIndexService, MajorIndexService>();
-
-                    services.AddSingleton<IPasswordHasher, PasswordHasher>();
-
-                    services.AddSingleton<IViewModelFactory, ViewModelFactory>();
-                    services.AddSingleton<BuyViewModel>();
-                    services.AddSingleton<PortfolioViewModel>();
-                    services.AddSingleton<AssetSummaryViewModel>();
-                    services.AddSingleton<HomeViewModel>(services => new HomeViewModel(
-                            MajorIndexListeningViewModel.LoadMajorIndexViewModel(
-                                services.GetRequiredService<IMajorIndexService>()),
-                            services.GetRequiredService<AssetSummaryViewModel>()));
-
-                    services.AddSingleton<ViewModelDelegateRenavigaor<HomeViewModel>>();
-                    services.AddSingleton<ViewModelDelegateRenavigaor<RegisterViewModel>>();
-                    services.AddSingleton<ViewModelDelegateRenavigaor<LoginViewModel>>();
-
-                    services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
-                    {
-                        return () => services.GetRequiredService<HomeViewModel>();
-                    });
-
-                    services.AddSingleton<CreateViewModel<PortfolioViewModel>>(services =>
-                    {
-                        return () => services.GetRequiredService<PortfolioViewModel>();
-                    });
-                    services.AddSingleton<CreateViewModel<BuyViewModel>>(services =>
-                    {
-                        return () => services.GetRequiredService<BuyViewModel>();
-                    });
-                    services.AddSingleton<CreateViewModel<RegisterViewModel>>(services =>
-                    {
-                        return () => new RegisterViewModel(
-                            services.GetRequiredService<ViewModelDelegateRenavigaor<LoginViewModel>>(),
-                            services.GetRequiredService<IAuthenticator>(),
-                            services.GetRequiredService<ViewModelDelegateRenavigaor<LoginViewModel>>());
-                    });
-
-                    services.AddSingleton<CreateViewModel<LoginViewModel>>(services =>
-                    {
-                        return () => new LoginViewModel(
-                            services.GetRequiredService<IAuthenticator>(),
-                            services.GetRequiredService<ViewModelDelegateRenavigaor<HomeViewModel>>(),
-                            services.GetRequiredService<ViewModelDelegateRenavigaor<RegisterViewModel>>());
-                    });
-
-                    services.AddSingleton<INavigator, Navigator>();
-                    services.AddSingleton<IAuthenticator, Authenticator>();
-                    services.AddSingleton<IAccountStore, AccountStore>();
-                    services.AddSingleton<AssetStore>();
-                    services.AddScoped<MainViewModel>();
-
-                    services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
-                });
+                .AddConfiguration()
+                .AddApi()
+                .AddDbContext()
+                .AddServices()
+                .AddStores()
+                .AddViewModels()
+                .AddViews();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             _host.Start();
+
+            TutoMVVMDbContextFactory contextFactory = _host.Services.GetRequiredService<TutoMVVMDbContextFactory>();
+            using (TutoMVVMDbContext context = contextFactory.CreateDbContext())
+            {
+                context.Database.Migrate();
+            }
+
             MainWindow window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();
 

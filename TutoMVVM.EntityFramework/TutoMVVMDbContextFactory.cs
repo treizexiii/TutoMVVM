@@ -1,21 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+using System;
 
 namespace TutoMVVM.EntityFramework
 {
     public class TutoMVVMDbContextFactory
     {
-        private readonly string _connectionString;
+        private readonly Action<DbContextOptionsBuilder> _configureDbContext;
 
-        public TutoMVVMDbContextFactory(string connectionString)
+        public TutoMVVMDbContextFactory(Action<DbContextOptionsBuilder> configureDbContext)
         {
-            _connectionString = connectionString;
+            _configureDbContext = configureDbContext;
         }
 
         public TutoMVVMDbContext CreateDbContext()
         {
             DbContextOptionsBuilder<TutoMVVMDbContext> options = new DbContextOptionsBuilder<TutoMVVMDbContext>();
-            options.UseSqlServer(_connectionString);
+
+            _configureDbContext(options);
 
             return new TutoMVVMDbContext(options.Options);
         }

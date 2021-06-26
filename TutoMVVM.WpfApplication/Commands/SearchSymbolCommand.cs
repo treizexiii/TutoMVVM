@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 using TutoMVVM.Domain.Exceptions;
 using TutoMVVM.Domain.Services;
 using TutoMVVM.WpfApplication.ViewModels;
@@ -10,12 +8,12 @@ namespace TutoMVVM.WpfApplication.Commands
 {
     class SearchSymbolCommand : AsyncCommandBase
     {
-        private readonly BuyViewModel _buyViewModel;
+        private readonly ISearchSymbolViewModel _viewModel;
         private readonly IStockPriceService _stockPriceService;
 
-        public SearchSymbolCommand(BuyViewModel buyViewModel, IStockPriceService stockPriceService)
+        public SearchSymbolCommand(ISearchSymbolViewModel viewModel, IStockPriceService stockPriceService)
         {
-            _buyViewModel = buyViewModel;
+            _viewModel = viewModel;
             _stockPriceService = stockPriceService;
         }
 
@@ -23,17 +21,17 @@ namespace TutoMVVM.WpfApplication.Commands
         {
             try
             {
-                double stockPrice = await _stockPriceService.GetPrice(_buyViewModel.Symbol);
-                _buyViewModel.SearchResultSymbol = _buyViewModel.Symbol.ToUpper();
-                _buyViewModel.StockPrice = stockPrice;
+                double stockPrice = await _stockPriceService.GetPrice(_viewModel.Symbol);
+                _viewModel.SearchResultSymbol = _viewModel.Symbol.ToUpper();
+                _viewModel.StockPrice = stockPrice;
             }
-            catch(InvalidSymbolException)
+            catch (InvalidSymbolException)
             {
-                _buyViewModel.ErrorMessage = "Symbol does not exist.";
+                _viewModel.ErrorMessage = "Symbol does not exist.";
             }
             catch (Exception)
             {
-                _buyViewModel.ErrorMessage = "Failed to get the symbol's information.";
+                _viewModel.ErrorMessage = "Failed to get the symbol's information.";
             }
         }
     }

@@ -12,6 +12,15 @@ A trading WPF application with purpose of learning the Model View ViewModel deve
 #
 ## 2. Versions
 
+Version 0.8:
+- Migration to Sqlite
+- Implement service for selling transactions
+- Add unit test for selling and buying services
+- Add view and view model for registration
+- Refactoring the research symbol command
+- Refactoring Host builder
+- Rework the API connection with a single client for all request
+
 Version 0.7:
 - Add view for the Portfolio
 - Add view and viewmodel for the registration
@@ -72,6 +81,6 @@ To come up:
 
 - Authentification system - done
 - User control for accounts
-- Selling interfarce for stocks
+- Selling interfarce for stocks - done
 - UI improvements
 - performance optimization
